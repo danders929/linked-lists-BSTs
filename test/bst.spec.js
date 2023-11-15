@@ -23,23 +23,23 @@ const BinarySearchTree = require('../src/bst');
 
 describe.only('BinarySearchTree', () => {
   let tree
-  let xtestArr
+  let testArr
   const valuesToInsert = [15, 25, 5, 17, 21, 28, 0, 14, 50, 1, 45, 13, 12, 11, 30, 35, 33, 31, 34]
 
   // Before each spec, create a new BST with 20 at the root
   beforeEach(() => {
     tree = new BinarySearchTree(20)
-    xtestArr = []
+    testArr = []
   })
 
-  xtest('should take a value argument in the constructor, define `left` and `right to be null`, and include a `magnitude` to represent the tree size', () => {
+  test('should take a value argument in the constructor, define `left` and `right to be null`, and include a `magnitude` to represent the tree size', () => {
     expect(tree.value).toEqual(20)
     expect(tree.left).toEqual(null)
     expect(tree.right).toEqual(null)
     expect(tree.magnitude).toEqual(1);
   })
 
-  xtest('has methods named `insert`, `size`, `contains`, `depthFirstForEach`, and `breadthFirstForEach`', () => {
+  test('has methods named `insert`, `size`, `contains`, `depthFirstForEach`, and `breadthFirstForEach`', () => {
     expect(typeof tree.insert).toEqual('function')
     expect(typeof tree.size).toEqual('function')
     expect(typeof tree.contains).toEqual('function')
@@ -48,7 +48,7 @@ describe.only('BinarySearchTree', () => {
   })
 
   describe('`insert` method', () => {
-    xtest('makes nodes on the correct branches, without overwriting existing nodes', () => {
+    test('makes nodes on the correct branches, without overwriting existing nodes', () => {
       tree.insert(12)
       tree.insert(22)
       expect(tree.value).toEqual(20)
@@ -56,7 +56,7 @@ describe.only('BinarySearchTree', () => {
       expect(tree.right.value).toEqual(22)
     })
 
-    xtest('sorts values when adding', () => {
+    test('sorts values when adding', () => {
       // see the `beforeEach` above to see what is in `valuesToInsert`
       valuesToInsert.forEach(val => tree.insert(val))
       expect(tree.value).toEqual(20)
@@ -69,7 +69,7 @@ describe.only('BinarySearchTree', () => {
   })
 
   describe('`size` method', () => {
-    xtest('reports the current size of the tree', () => {
+    test('reports the current size of the tree', () => {
       expect(tree.size()).toEqual(1)
       tree.insert(12)
       expect(tree.size()).toEqual(2)
@@ -79,7 +79,7 @@ describe.only('BinarySearchTree', () => {
   })
 
   describe('`contains` method', () => {
-    xtest('returns true if passed a value that exists in the tree', () => {
+    test('returns true if passed a value that exists in the tree', () => {
       valuesToInsert.forEach((value) => {
         tree.insert(value)
       })
@@ -88,7 +88,7 @@ describe.only('BinarySearchTree', () => {
       })
     })
 
-    xtest('returns false if passed a value that exists in the tree', () => {
+    test('returns false if passed a value that exists in the tree', () => {
       valuesToInsert.forEach((value) => {
         tree.insert(value)
       })
@@ -118,50 +118,50 @@ describe.only('BinarySearchTree', () => {
     // The one obvious advantage of "in-order" traversal is that values are processed respecting their comparative order
 
   describe('`depthFirstForEach` method', () => {
-    xtest('runs a depth-first "in-order" traversal when run with no option or "in-order" option', () => {
+    test('runs a depth-first "in-order" traversal when run with no option or "in-order" option', () => {
       valuesToInsert.forEach((value) => {
         tree.insert(value)
       })
       // Note: no argument is passed in for the second parameter. This means that "in-order" should be our default.
       tree.depthFirstForEach((val) => {
-        xtestArr.push(val)
+        testArr.push(val)
       })
-      expect(xtestArr).toEqual([ 0, 1, 5, 11, 12, 13, 14, 15, 17, 20, 21, 25, 28, 30, 31, 33, 34, 35, 45, 50 ])
-      xtestArr = []
+      expect(testArr).toEqual([ 0, 1, 5, 11, 12, 13, 14, 15, 17, 20, 21, 25, 28, 30, 31, 33, 34, 35, 45, 50 ])
+      testArr = []
       tree.depthFirstForEach((val) => {
-        xtestArr.push(val)
+        testArr.push(val)
       }, 'in-order')
-      expect(xtestArr).toEqual([ 0, 1, 5, 11, 12, 13, 14, 15, 17, 20, 21, 25, 28, 30, 31, 33, 34, 35, 45, 50 ])
+      expect(testArr).toEqual([ 0, 1, 5, 11, 12, 13, 14, 15, 17, 20, 21, 25, 28, 30, 31, 33, 34, 35, 45, 50 ])
     })
 
     // ### Depth-First Search: "Pre-Order" traversal
     // One use case for this kind of traversal would be copying a tree (processes roots first).
-    xtest('runs a depth-first "pre-order" traversal when run with "pre-order" option', () => {
+    test('runs a depth-first "pre-order" traversal when run with "pre-order" option', () => {
       valuesToInsert.forEach((value) => {
         tree.insert(value)
       })
       tree.depthFirstForEach((val) => {
-        xtestArr.push(val)
+        testArr.push(val)
       }, 'pre-order')
-      expect(xtestArr).toEqual([20, 15, 5, 0, 1, 14, 13, 12, 11, 17, 25, 21, 28, 50, 45, 30, 35, 33, 31, 34])
+      expect(testArr).toEqual([20, 15, 5, 0, 1, 14, 13, 12, 11, 17, 25, 21, 28, 50, 45, 30, 35, 33, 31, 34])
     })
     // ### Depth-First Search: "Post-Order" traversal
     // One use case would be deleting a tree. Because this kind of traversal processes the leaves first, it would allow us to delete or free the memory used by the leaves before deleting the parent. If we deleted the parent first, we would be unable to "get to" the leaves and delete them! This is called a "memory leak".
 
-    xtest('runs a depth-first "post-order" traversal when run with "post-order" option', () => {
+    test('runs a depth-first "post-order" traversal when run with "post-order" option', () => {
       valuesToInsert.forEach((value) => {
         tree.insert(value)
       })
       tree.depthFirstForEach((val) => {
-        xtestArr.push(val)
+        testArr.push(val)
       }, 'post-order')
-      expect(xtestArr).toEqual([1, 0, 11, 12, 13, 14, 5, 17, 15, 21, 31, 34, 33, 35, 30, 45, 50, 28, 25, 20])
+      expect(testArr).toEqual([1, 0, 11, 12, 13, 14, 5, 17, 15, 21, 31, 34, 33, 35, 30, 45, 50, 28, 25, 20])
     })
   })
 
   describe('`breadthFirstForEach` method', () => {
 
-    xtest('runs a breadth-first traversal', () => {
+    test('runs a breadth-first traversal', () => {
     // `breadthFirstForEach` takes 1 parameter:
     //    1. a function that will be run on each node of the traversal
 
